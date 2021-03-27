@@ -1,0 +1,5 @@
+pandas
+boto3
+wheel
+psycopg2-binary
+psycopg2
