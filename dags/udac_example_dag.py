@@ -12,6 +12,7 @@ config = configparser.ConfigParser()
 config.read_file(open(config_file))
 
 S3_BUCKET_LOG_DATA = config.get('S3','LOG_DATA')
+S3_BUCKET_SONG_DATA = config.get('S3','SONG_DATA')
 
 # AWS_KEY = os.environ.get('AWS_KEY')
 # AWS_SECRET = os.environ.get('AWS_SECRET')
@@ -60,7 +61,14 @@ stage_events_to_redshift = StageToRedshiftOperator(
 
 stage_songs_to_redshift = StageToRedshiftOperator(
     task_id='Stage_songs',
-    dag=dag
+    dag=dag,
+    redshift_conn_id="redshift",
+    aws_credentials_id="aws_credentials",
+    table="songs",
+    S3_bucket=S3_BUCKET_SONG_DATA,
+    S3_key="",
+    delimiter=",",
+    ignore_headers=1
 )
 
 load_songplays_table = LoadFactOperator(
