@@ -1,7 +1,7 @@
 from airflow.hooks.postgres_hook import PostgresHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
-from helpers.sql_queries import songplay_table_insert 
+from helpers.sql_queries import SqlQueries
 
 class LoadFactOperator(BaseOperator):
 
@@ -19,4 +19,5 @@ class LoadFactOperator(BaseOperator):
 
     def execute(self, context):
         self.log.info('LoadFactOperator implemented')
-        redshift.run(songplay_table_insert)
+        query = SqlQueries.songplay_table_insert.format(self.table)
+        redshift.run(query)
