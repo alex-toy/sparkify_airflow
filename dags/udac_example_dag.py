@@ -53,7 +53,7 @@ stage_events_to_redshift = StageToRedshiftOperator(
     aws_credentials_id="aws_credentials",
     table="events",
     S3_bucket=S3_BUCKET_LOG_DATA,
-    S3_key="",
+    S3_key="log_data",
     delimiter=",",
     ignore_headers=1
 )
@@ -66,7 +66,7 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     aws_credentials_id="aws_credentials",
     table="songs",
     S3_bucket=S3_BUCKET_SONG_DATA,
-    S3_key="",
+    S3_key="song_data",
     delimiter=",",
     ignore_headers=1
 )
