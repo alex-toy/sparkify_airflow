@@ -18,5 +18,5 @@ class LoadFactOperator(BaseOperator):
 
     def execute(self, context):
         redshift.run(self.query)
-        self.log.info('LoadFactOperator implemented')
+        self.log.info(f"LoadFactOperator : {self.query}")
         
