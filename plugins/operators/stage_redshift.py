@@ -17,7 +17,7 @@ class StageToRedshiftOperator(BaseOperator):
 
     def execute(self, context):
         redshift_hook = PostgresHook(self.redshift_conn_id)
-        records = redshift_hook.get_records(f"SELECT COUNT() FROM {self.table} WHERE")
+        
         self.log.info('StageToRedshiftOperator implemented')
 
 
