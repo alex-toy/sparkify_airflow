@@ -12,7 +12,7 @@ class SqlQueries:
                 events.useragent
             FROM (
                 SELECT TIMESTAMP 'epoch' + ts/1000 * interval '1 second' AS start_time, *
-                FROM {}
+                FROM staging_events
                 WHERE page='NextSong'
             ) events
             LEFT JOIN staging_songs songs

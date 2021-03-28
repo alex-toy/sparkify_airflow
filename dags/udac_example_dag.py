@@ -7,6 +7,7 @@ from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
 from helpers import SqlQueries
 import configparser
 from settings import config_file
+from helpers.sql_queries import SqlQueries
 
 config = configparser.ConfigParser()
 config.read_file(open(config_file))
@@ -75,12 +76,14 @@ load_songplays_table = LoadFactOperator(
     task_id='Load_songplays_fact_table',
     dag=dag,
     redshift_conn_id="redshift",
-    table="staging_events",
+    query=SqlQueries.songplay_table_insert
 )
 
 load_user_dimension_table = LoadDimensionOperator(
     task_id='Load_user_dim_table',
-    dag=dag
+    dag=dag,
+    redshift_conn_id="redshift",
+    query=SqlQueries.user_table_insert
 )
 
 load_song_dimension_table = LoadDimensionOperator(
