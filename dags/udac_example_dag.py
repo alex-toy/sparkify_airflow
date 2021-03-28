@@ -5,6 +5,13 @@ from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
                                 LoadDimensionOperator, DataQualityOperator)
 from helpers import SqlQueries
+import configparser
+from settings import config_file
+
+config = configparser.ConfigParser()
+config.read_file(open(config_file))
+
+S3_BUCKET_LOG_DATA = config.get('S3','LOG_DATA')
 
 # AWS_KEY = os.environ.get('AWS_KEY')
 # AWS_SECRET = os.environ.get('AWS_SECRET')
@@ -40,8 +47,16 @@ start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
 
 stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
-    dag=dag
+    dag=dag,
+    redshift_conn_id="redshift",
+    aws_credentials_id="aws_credentials",
+    table="events",
+    S3_bucket=S3_BUCKET_LOG_DATA,
+    S3_key="",
+    delimiter=",",
+    ignore_headers=1
 )
+
 
 stage_songs_to_redshift = StageToRedshiftOperator(
     task_id='Stage_songs',
