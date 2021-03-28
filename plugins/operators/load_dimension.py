@@ -18,4 +18,4 @@ class LoadDimensionOperator(BaseOperator):
 
     def execute(self, context):
         redshift.run(query)
-        self.log.info('LoadDimensionOperator implemented')
+        self.log.info(f"LoadDimensionOperator : {self.query}")
