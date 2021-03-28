@@ -4,11 +4,22 @@ from airflow.utils.decorators import apply_defaults
 
 class StageToRedshiftOperator(BaseOperator):
     ui_color = '#358140'
+    template_fields = ("S3_key", )
+    copy_sql = """
+        COPY {}
+        FROM '{}'
+        
+    """
 
     @apply_defaults
     def __init__(self,
                  redshift_conn_id="",
-                 table=""
+                 aws_credentials_id="",
+                 table="",
+                 S3_bucket="",
+                 S3_key="",
+                 delimiter=",",
+                 ignore_headers=1,
                  *args, **kwargs):
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)

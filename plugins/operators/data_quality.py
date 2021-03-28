@@ -24,4 +24,4 @@ class DataQualityOperator(BaseOperator):
         records = redshift_hook.get_records(query)
         if len(records) < 1 or len(records[0]) < 1 :
             raise ValueError(f"data quality check failed : {self.column} contains nulls.")
-        self.log.info('Data Quality check on table {self.table} passed.')
+        self.log.info(f"Data Quality check on table {self.table} passed.")
