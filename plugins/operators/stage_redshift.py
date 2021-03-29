@@ -38,17 +38,12 @@ class StageToRedshiftOperator(BaseOperator):
         self.S3_key = S3_key
         self.delimiter = delimiter
         self.ignore_headers = ignore_headers
-        self.create_query = create_query
         self.formatting = formatting
+
 
     def execute(self, context):
         credentials = AwsHook(self.aws_credentials_id).get_credentials()
         redshift = PostgresHook(self.redshift_conn_id)
-        
-        
-        self.log.info(f"Creating table {self.table}.")
-        redshift.run(self.create_query)
-           
         
         self.log.info('Clearing data from destination Rdeshift table.')
         redshift.run(f"DELETE FROM {self.table}")
