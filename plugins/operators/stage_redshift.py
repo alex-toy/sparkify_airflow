@@ -39,6 +39,24 @@ class StageToRedshiftOperator(BaseOperator):
         credentials = AwsHook(self.aws_credentials_id).get_credentials()
         redshift = PostgresHook(self.redshift_conn_id)
         
+        
+        self.log.info(f"Creating table {self.table}.")
+        redshift.run(f"""CREATE TABLE IF NOT EXISTS {self.table}  (
+            "song_id" BIGINT IDENTITY(1,1), 
+            "num_songs" INTEGER,
+            "artist_id" TEXT,
+            "artist_latitude" TEXT,
+            "artist_longitude" TEXT,
+            "artist_location" TEXT,
+            "artist_name" TEXT,
+            "title" TEXT,
+            "duration" DOUBLE PRECISION,
+            "year" INTEGER
+        );""")
+        
+        
+        
+        
         self.log.info('Clearing data from destination Rdeshift table.')
         redshift.run(f"DELETE FROM {self.table}")
 
@@ -54,6 +72,7 @@ class StageToRedshiftOperator(BaseOperator):
             self.delimiter
         )
         redshift.run(formatted_sql)
+
 
 
 
