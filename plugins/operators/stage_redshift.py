@@ -13,7 +13,9 @@ class StageToRedshiftOperator(BaseOperator):
         SECRET_ACCESS_KEY '{}'
         IGNOREHEADER {}
         DELIMITER '{}'
+        {};
     """
+    
 
     @apply_defaults
     def __init__(self,
@@ -24,6 +26,8 @@ class StageToRedshiftOperator(BaseOperator):
                  S3_key="",
                  delimiter=",",
                  ignore_headers=1,
+                 create_query="",
+                 formatting="",
                  *args, **kwargs):
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
@@ -34,6 +38,8 @@ class StageToRedshiftOperator(BaseOperator):
         self.S3_key = S3_key
         self.delimiter = delimiter
         self.ignore_headers = ignore_headers
+        self.create_query = create_query
+        self.formatting = formatting
 
     def execute(self, context):
         credentials = AwsHook(self.aws_credentials_id).get_credentials()
@@ -41,21 +47,8 @@ class StageToRedshiftOperator(BaseOperator):
         
         
         self.log.info(f"Creating table {self.table}.")
-        redshift.run(f"""CREATE TABLE IF NOT EXISTS {self.table}  (
-            "song_id" BIGINT IDENTITY(1,1), 
-            "num_songs" INTEGER,
-            "artist_id" TEXT,
-            "artist_latitude" TEXT,
-            "artist_longitude" TEXT,
-            "artist_location" TEXT,
-            "artist_name" TEXT,
-            "title" TEXT,
-            "duration" DOUBLE PRECISION,
-            "year" INTEGER
-        );""")
-        
-        
-        
+        redshift.run(self.create_query)
+           
         
         self.log.info('Clearing data from destination Rdeshift table.')
         redshift.run(f"DELETE FROM {self.table}")
@@ -69,7 +62,8 @@ class StageToRedshiftOperator(BaseOperator):
             credentials.access_key,
             credentials.secret_key,
             self.ignore_headers,
-            self.delimiter
+            self.delimiter,
+            self.formatting
         )
         redshift.run(formatted_sql)
 
