@@ -44,45 +44,9 @@ class SqlQueries:
     """)
     
     
-    staging_songs_table_create = (f"""
-    CREATE TABLE IF NOT EXISTS staging_songs (
-            "song_id" BIGINT IDENTITY(1,1), 
-            "num_songs" INTEGER,
-            "artist_id" TEXT,
-            "artist_latitude" TEXT,
-            "artist_longitude" TEXT,
-            "artist_location" TEXT,
-            "artist_name" TEXT,
-            "title" TEXT,
-            "duration" DOUBLE PRECISION,
-            "year" INTEGER
-        );
-    """)
+
     
-    
-    staging_events_table_create = (f"""
-        CREATE TABLE IF NOT EXISTS staging_events (
-            "artist" TEXT,
-            "auth" TEXT,
-            "firstName" TEXT,
-            "gender" CHAR,
-            "itemInSession" INTEGER,
-            "lastName" TEXT,
-            "length" DOUBLE PRECISION,
-            "level" TEXT,
-            "location" TEXT,
-            "method" TEXT,
-            "page" TEXT,
-            "registration" DOUBLE PRECISION,
-            "sessionId" INTEGER,
-            "song" TEXT,
-            "status" INTEGER,
-            "ts" BIGINT,
-            "userAgent" TEXT,
-            "userId" TEXT
-        );
-    """)
-    
+
     
     
     
