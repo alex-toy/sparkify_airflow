@@ -109,12 +109,20 @@ load_time_dimension_table = LoadDimensionOperator(
     query=SqlQueries.time_table_insert
 )
 
-run_quality_checks = DataQualityOperator(
-    task_id='Run_data_quality_checks',
+run_quality_checks_1 = DataQualityOperator(
+    task_id='Run_data_quality_checks_1',
     dag=dag,
     redshift_conn_id="redshift",
     table="songplays",
     column="artistid",
+)
+
+run_quality_checks_2 = DataQualityOperator(
+    task_id='Run_data_quality_checks_2',
+    dag=dag,
+    redshift_conn_id="redshift",
+    table="songs",
+    column="songid",
 )
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
