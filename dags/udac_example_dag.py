@@ -13,6 +13,7 @@ config.read_file(open(config_file))
 
 S3_BUCKET_LOG_DATA = config.get('S3','LOG_DATA')
 S3_BUCKET_SONG_DATA = config.get('S3','SONG_DATA')
+LOG_JSONPATH = config.get('S3','LOG_JSONPATH')
 
 default_args = {
     'owner': 'udacity',
@@ -44,10 +45,12 @@ stage_events_to_redshift = StageToRedshiftOperator(
     redshift_conn_id="redshift",
     aws_credentials_id="aws_credentials",
     table="staging_events",
-    S3_bucket=S3_BUCKET_LOG_DATA,
+    S3_bucket="udacity-dend",
     S3_key="log_data",
     delimiter=",",
-    ignore_headers=1
+    ignore_headers=1,
+    create_query=SqlQueries.staging_events_table_create,
+    formatting=f"FORMAT AS json '{LOG_JSONPATH}'"
 )
 
 
@@ -57,10 +60,12 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     redshift_conn_id="redshift",
     aws_credentials_id="aws_credentials",
     table="staging_songs",
-    S3_bucket=S3_BUCKET_SONG_DATA,
+    S3_bucket="udacity-dend",
     S3_key="song_data",
     delimiter=",",
-    ignore_headers=1
+    ignore_headers=1,
+    create_query=SqlQueries.staging_songs_table_create,
+    formatting="JSON 'auto'"
 )
 
 load_songplays_table = LoadFactOperator(
