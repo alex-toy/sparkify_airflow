@@ -7,21 +7,12 @@ from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
 from helpers import SqlQueries
 import configparser
 from settings import config_file
-from helpers.sql_queries import SqlQueries
 
 config = configparser.ConfigParser()
 config.read_file(open(config_file))
 
 S3_BUCKET_LOG_DATA = config.get('S3','LOG_DATA')
 S3_BUCKET_SONG_DATA = config.get('S3','SONG_DATA')
-
-# AWS_KEY = os.environ.get('AWS_KEY')
-# AWS_SECRET = os.environ.get('AWS_SECRET')
-
-default_args = {
-    'owner': 'udacity',
-    'start_date': datetime(2019, 1, 12),
-}
 
 default_args = {
     'owner': 'udacity',
@@ -65,7 +56,7 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     dag=dag,
     redshift_conn_id="redshift",
     aws_credentials_id="aws_credentials",
-    table="songs",
+    table="staging_songs",
     S3_bucket=S3_BUCKET_SONG_DATA,
     S3_key="song_data",
     delimiter=",",
@@ -121,7 +112,4 @@ end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 start_operator >> [stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table >> \
 [load_song_dimension_table, load_user_dimension_table, load_artist_dimension_table, load_time_dimension_table] >> \
 run_quality_checks >> end_operator
-
-
-
 
