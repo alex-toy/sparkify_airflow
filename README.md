@@ -80,10 +80,15 @@ Once the data has been ETLed, you are free to take full benefit from the power o
 
     ├── etl.ipynb                 <- Loads staging tables from S3 into cluster.
     ├── dl.cfg                    <- Config file containing credentials. Hide it!!
+    ├── dags
+    │   ├── create_tables.sql     <- Create_tables in Redshift.
+    │   └── Iac_1.py              <- Creates new iam role, attaches policy AmazonS3ReadOnlyAccess to it 
     ├── plugins
     │   ├── helpers               
     │   │   └── sql_queries.py    <- For ETL purpose. 
     │   ├── operators 
+    │   │   ├── data_quality.py   <- Run data quality checks.  
+    │   │   ├── load_dimension.py <- Populate dimension tables.  
     │   │   ├── load_fact.py      <- Populate fact tables.               
     │   │   └── stage_redshift.py <- Create staging tables in Redshift based on S3 data. 
     ├── utils
