@@ -10,7 +10,9 @@ You need to have Python 3.8.5 installed for this project
 
 ## 1. Purpose of the project
 
-The purpose of the project is to move a data warehouse to a data lake. The data resides in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app. The projects consists in building an ETL pipeline that extracts data from S3, processes it using Spark, and loads the data back into S3 as a set of dimensional tables. This will allow the analytics team to continue finding insights in what songs users are listening to.
+The purpose of the project is to introduce automation and monitoring to a data warehouse ETL pipelines using Apache Airflow. Airflow allows to create high grade data pipelines that are dynamic and built from reusable tasks, that can be monitored, and allow easy backfills. It also allows to monitor data quality which plays a big part when analyses are executed on top the data warehouse, in that it allows to run tests against our datasets after the ETL steps have been executed to catch any discrepancies in the datasets.
+
+The source data resides in S3 and needs to be processed in a cloud provided data warehouse (Amazon Redshift). The source datasets consist of JSON logs that tell about user activity in the application and JSON metadata about the songs the users listen to.
 
 
 ## 2. Database schema design and ETL pipeline
