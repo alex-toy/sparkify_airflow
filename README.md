@@ -78,16 +78,21 @@ Once the data has been ETLed, you are free to take full benefit from the power o
 # Project Organization 
 ----------------------
 
-    ├── README.md           <- The top-level README for users and developers using this project.
-    ├── etl.ipynb           <- Loads staging tables from S3 into cluster.
-    ├── dl.cfg              <- Config file containing credentials. Hide it!!
-    ├── requirements.txt    <- Necessary packages for local use.
-    ├── create_cluster.py   <- Programmatically create AWS cluster.
-    ├── proxy_setup.py      <- Set up a proxy for connexion.
-    ├── test_ssh.py         <- Create an ssh connexion with your cluster master node.
-    ├── copy_file.py        <- Copy all needed files for application to work remotely (dl.cfg, etl.py).
-    ├── data                <- Data for local test.
-
+    ├── etl.ipynb                 <- Loads staging tables from S3 into cluster.
+    ├── dl.cfg                    <- Config file containing credentials. Hide it!!
+    ├── create_cluster.py         <- Programmatically create AWS cluster.
+    ├── proxy_setup.py            <- Set up a proxy for connexion.
+    ├── test_ssh.py               <- Create an ssh connexion with your cluster master node.
+    ├── copy_file.py              <- Copy all needed files for application to work remotely (dl.cfg, etl.py).
+    ├── utils
+    │   ├── dwh.cfg               <- Config file containing credentials. Hide it!!
+    │   ├── Iac_1.py              <- Creates new iam role, attaches policy AmazonS3ReadOnlyAccess to it and finally creates new cluster programmatically.
+    │   ├── Iac_2.py              <- Open an incoming TCP port to access the cluster endpoint.
+    │   ├── release_resources.py  <- Automatically release all resources created on Redshift.
+    │   └── settings.py           <- Useful functions for project.  
+    ├── init.sh                   <- useful command line instructions.
+    ├── requirements.txt          <- Necessary packages for local use.
+    ├── README.md                 <- The top-level README for users and developers using this project.
 
 
 # Getting started
