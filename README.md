@@ -123,8 +123,18 @@ $ pip install -r requirements.txt
 
 ## 2. Configuration of project
 
-You need to have an AWS account to run the complete analysis. You also need to create a user with programmatic access and that has AdministratorAccess. Download its secret access key file and keep it secret.
+You need to have an AWS account to run the complete analysis. You also need to create a user that has AmazonRedshiftFullAccess as well as AmazonS3ReadOnlyAccess policies. Make sure to keep its KEY and SECRET credentials in a safe place.
 
+1. Copy the *dwh.cfg* into a safe place.
+2. Fill in all fields except *LOG_DATA*, *LOG_JSONPATH*, *SONG_DATA* which are already filled and *DWH_ENDPOINT*, *DWH_ROLE_ARN* which will be automatically filled for you. 
+3. In file *settings.py*, give the path to *dwh.cfg* to variable *config_file*.
+4. Run *IaC_1.py* and wait untill you see the cluster available in your console.
+4. Run *IaC_2.py*.
+5. At the end, don't forget to *release_resources.py* !!!!
+
+
+
+## 3. Run project
 
 1. Configure the AWS CLI using the downloaded secret access key file.
 2. Fill dl.cfg with access and secret key ID.
