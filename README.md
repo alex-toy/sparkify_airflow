@@ -136,13 +136,8 @@ You need to have an AWS account to run the complete analysis. You also need to c
 
 ## 3. Run project
 
-1. Configure the AWS CLI using the downloaded secret access key file.
-2. Fill dl.cfg with access and secret key ID.
-3. Inside create_cluster.py, configure the args dictionary. Then run create_cluster.py to create a cluster. 
-4. Change Security Groups for your previously created EMR cluster master : add inbound rule SSH with your local IP.
-5. Inside test_ssh.py, configure the args dictionary. Then run test_ssh.py to check that you can ssh into your master.
-6. Inside copy_file.py, configure the args dictionary. Then run copy_file.py to copy all files needed for your spark job to run.
-7. Inside your ssh connection, run the following command : /usr/bin/spark-submit --master yarn etl.py
+You need to have Airflow installed to run the project. Find global_dag and run it. As it runs, you can go into the query section of your Redshift console and see the creation and populating of the tables.
+
 
 
 --------
