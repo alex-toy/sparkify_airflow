@@ -78,11 +78,9 @@ Once the data has been ETLed, you are free to take full benefit from the power o
 # Project Organization 
 ----------------------
 
-    ├── etl.ipynb                 <- Loads staging tables from S3 into cluster.
-    ├── dl.cfg                    <- Config file containing credentials. Hide it!!
     ├── dags
     │   ├── create_tables.sql     <- Create_tables in Redshift.
-    │   └── Iac_1.py              <- Creates new iam role, attaches policy AmazonS3ReadOnlyAccess to it 
+    │   └── global_dag.py         <- Creates DAG and runs all tasks in sequence.
     ├── plugins
     │   ├── helpers               
     │   │   └── sql_queries.py    <- For ETL purpose. 
@@ -99,7 +97,7 @@ Once the data has been ETLed, you are free to take full benefit from the power o
     │   └── settings.py           <- Useful functions for project.  
     ├── init.sh                   <- useful command line instructions.
     ├── requirements.txt          <- Necessary packages for local use.
-    ├── README.md                 <- The top-level README for users and developers using this project.
+    └── README.md                 <- The top-level README for users and developers using this project.
 
 
 # Getting started
