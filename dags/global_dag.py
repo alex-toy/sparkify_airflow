@@ -19,7 +19,7 @@ LOG_JSONPATH = config.get('S3','LOG_JSONPATH')
 default_args = {
     'owner': 'udacity',
     'start_date': datetime(2018, 11, 1),
-    'end_date': datetime(2018, 11, 3),
+    'end_date': datetime(2019, 12, 1),
     'depends_on_past': False,
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
@@ -29,7 +29,7 @@ default_args = {
 
 # DAG
 dag = DAG(
-    'udac_example_dag',
+    'global_dag',
     default_args=default_args,
     description='Load and transform data in Redshift with Airflow',
     schedule_interval='0 * * * *',

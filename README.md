@@ -139,7 +139,6 @@ You need to have an AWS account to run the complete analysis. You also need to c
 You need to have Airflow installed to run the project. Find global_dag and run it. As it runs, you can go into the query section of your Redshift console and see the creation and populating of the tables.
 
 
-
 --------
 
 
