@@ -56,7 +56,6 @@ stage_events_to_redshift = StageToRedshiftOperator(
     S3_bucket="udacity-dend",
     S3_key="log_data",
     delimiter=",",
-    ignore_headers=1,
     formatting=f"FORMAT AS json '{LOG_JSONPATH}'"
 )
 
@@ -70,9 +69,10 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     S3_bucket="udacity-dend",
     S3_key="song_data",
     delimiter=",",
-    ignore_headers=1,
     formatting="JSON 'auto'"
 )
+
+
 
 load_songplays_table = LoadFactOperator(
     task_id='Load_songplays_fact_table',
