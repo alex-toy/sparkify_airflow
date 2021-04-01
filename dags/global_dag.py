@@ -67,7 +67,7 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     aws_credentials_id="aws_credentials",
     table="staging_songs",
     S3_bucket="udacity-dend",
-    S3_key="song_data",
+    S3_key="song_data/A/A/A",
     delimiter=",",
     formatting="JSON 'auto'"
 )
