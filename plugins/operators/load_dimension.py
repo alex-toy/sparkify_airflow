@@ -25,7 +25,7 @@ class LoadDimensionOperator(BaseOperator):
 
     def execute(self, context):
         redshift = PostgresHook(self.redshift_conn_id)
-        if self.append == True:
+        if self.append == False:
             sql_statement = truncate_sql.format(self.table) + self.query
         else:
             sql_statement = self.query
