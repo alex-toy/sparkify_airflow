@@ -11,7 +11,6 @@ class StageToRedshiftOperator(BaseOperator):
         FROM '{}'
         ACCESS_KEY_ID '{}'
         SECRET_ACCESS_KEY '{}'
-        IGNOREHEADER {}
         {};
     """
     
@@ -24,7 +23,6 @@ class StageToRedshiftOperator(BaseOperator):
                  S3_bucket="",
                  S3_key="",
                  delimiter=",",
-                 ignore_headers=1,
                  create_query="",
                  formatting="",
                  *args, **kwargs):
@@ -35,7 +33,6 @@ class StageToRedshiftOperator(BaseOperator):
         self.table = table
         self.S3_bucket = S3_bucket
         self.S3_key = S3_key
-        self.ignore_headers = ignore_headers
         self.formatting = formatting
 
 
@@ -54,7 +51,6 @@ class StageToRedshiftOperator(BaseOperator):
             s3_path,
             credentials.access_key,
             credentials.secret_key,
-            self.ignore_headers,
             self.formatting
         )
         redshift.run(formatted_sql)
