@@ -10,17 +10,17 @@ class LoadDimensionOperator(BaseOperator):
     def __init__(self,
                  redshift_conn_id="",
                  query="",
-                 append_data=False,
+                 append=False,
                  *args, **kwargs):
 
         super(LoadDimensionOperator, self).__init__(*args, **kwargs)
         self.redshift_conn_id = redshift_conn_id
         self.query = query
-        self.append_data = append_data
+        self.append = append
 
     def execute(self, context):
         redshift = PostgresHook(self.redshift_conn_id)
-        if self.append_data == True:
+        if self.append == True:
             sql_statement = self.query
             redshift.run(sql_statement)
         else:
