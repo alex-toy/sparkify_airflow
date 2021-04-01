@@ -109,6 +109,8 @@ load_time_dimension_table = LoadDimensionOperator(
     query=SqlQueries.time_table_insert
 )
 
+milestone_task = DummyOperator(task_id='milestone_task',  dag=dag)
+
 run_quality_checks_1 = DataQualityOperator(
     task_id='Run_data_quality_checks_1',
     dag=dag,
@@ -131,5 +133,6 @@ end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 start_operator >> create_tables_task >> \
 [stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table >> \
 [load_song_dimension_table, load_user_dimension_table, load_artist_dimension_table, load_time_dimension_table] >> \
-[run_quality_checks_1, run_quality_checks_2]  >> end_operator
+milestone_task >> \
+[run_quality_checks_1, run_quality_checks_2] >> end_operator
 
