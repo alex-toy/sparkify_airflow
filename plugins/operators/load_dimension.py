@@ -31,10 +31,10 @@ class LoadDimensionOperator(BaseOperator):
         if self.append == False :
             sql_statement = LoadDimensionOperator.truncate_sql.format(self.table)
             sql_statement += LoadDimensionOperator.table_insert.format(self.table, self.query)
-            operation = 'append'
+            operation = 'truncate'
         else:
             sql_statement = LoadDimensionOperator.table_insert.format(self.table, self.query)
-            operation = 'truncate'
+            operation = 'append'
             
         redshift_hook.run(sql_statement)
         
