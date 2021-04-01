@@ -5,7 +5,7 @@ from airflow.utils.decorators import apply_defaults
 class LoadDimensionOperator(BaseOperator):
 
     ui_color = '#80BD9E'
-    truncate_sql = f"""
+    truncate_sql = """
         TRUNCATE TABLE {};
     """
 
