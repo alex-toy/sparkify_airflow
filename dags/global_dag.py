@@ -85,28 +85,42 @@ load_user_dimension_table = LoadDimensionOperator(
     task_id='Load_user_dim_table',
     dag=dag,
     redshift_conn_id="redshift",
-    query=SqlQueries.user_table_insert
+    query=SqlQueries.user_table_insert,
+    append=False
 )
 
 load_song_dimension_table = LoadDimensionOperator(
     task_id='Load_song_dim_table',
     dag=dag,
     redshift_conn_id="redshift",
-    query=SqlQueries.song_table_insert
+    query=SqlQueries.song_table_insert,
+    append=False
 )
 
 load_artist_dimension_table = LoadDimensionOperator(
     task_id='Load_artist_dim_table',
     dag=dag,
     redshift_conn_id="redshift",
-    query=SqlQueries.artist_table_insert
+    query=SqlQueries.artist_table_insert,
+    append=False
 )
 
 load_time_dimension_table = LoadDimensionOperator(
     task_id='Load_time_dim_table',
     dag=dag,
     redshift_conn_id="redshift",
-    query=SqlQueries.time_table_insert
+    query=SqlQueries.time_table_insert,
+    append=False
+)
+
+milestone_task = DummyOperator(task_id='milestone_task',  dag=dag)
+
+run_quality_checks_1 = DataQualityOperator(
+    task_id='Run_data_quality_checks_1',
+    dag=dag,
+    redshift_conn_id="redshift",
+    table="songplays",
+    column="artistid",
 )
 
 milestone_task = DummyOperator(task_id='milestone_task',  dag=dag)
