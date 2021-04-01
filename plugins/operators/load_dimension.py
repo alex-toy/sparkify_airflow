@@ -36,7 +36,7 @@ class LoadDimensionOperator(BaseOperator):
             sql_statement = LoadDimensionOperator.table_insert.format(self.table, self.query)
             operation = 'append'
             
-        redshift_hook.run(sql_statement)
+        redshift.run(sql_statement)
         
         self.log.info(f"Ending LoadDimensionOperator {self.table} with a Success on Operation  {operation}")
 
