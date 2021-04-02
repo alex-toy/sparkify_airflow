@@ -128,22 +128,14 @@ run_quality_checks_1 = DataQualityOperator(
     column="artistid",
 )
 
-milestone_task = DummyOperator(task_id='milestone_task',  dag=dag)
 
-run_quality_checks_1 = DataQualityOperator(
-    task_id='Run_data_quality_checks_1',
+run_quality_checks = DataQualityOperator(
+    task_id='Run_data_quality_checks',
     dag=dag,
     redshift_conn_id="redshift",
-    table="songplays",
-    column="artistid",
-)
-
-run_quality_checks_2 = DataQualityOperator(
-    task_id='Run_data_quality_checks_2',
-    dag=dag,
-    redshift_conn_id="redshift",
-    table="songs",
-    column="songid",
+    query=default_args['null_check'],
+    tables=['songplays', 'songs', 'users', 'artists', 'time'],
+    columns=['playid', 'songid', 'userid', 'artist_id', 'start_time']
 )
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
@@ -152,6 +144,5 @@ end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 start_operator >> create_tables_task >> \
 [stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table >> \
 [load_song_dimension_table, load_user_dimension_table, load_artist_dimension_table, load_time_dimension_table] >> \
-milestone_task >> \
-[run_quality_checks_1, run_quality_checks_2] >> end_operator
+run_quality_checks >> end_operator
 
