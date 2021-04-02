@@ -24,7 +24,8 @@ default_args = {
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
     'catchup': False,
-    'email_on_retry': False
+    'email_on_retry': False,
+    'null_check' : {'check_sql': """SELECT COUNT(*) FROM {} WHERE {} IS NULL""", 'expected_result':0}
 }
 
 # DAG
