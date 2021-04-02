@@ -27,16 +27,15 @@ class DataQualityOperator(BaseOperator):
             records = redshift.get_records(check_query)[0]
             error_count = 0
             failing_tests = []
-            if exp_result != records[0]:
+            if records[0] != 0 :
                 error_count += 1
                 failing_tests.append(check_query)
 
-            if error_count > 0:
-                self.log.info('SQL Tests failed')
-                self.log.info(failing_tests)
-                raise ValueError('Data quality check failed')
-
-        if error_count == 0:
+        if error_count > 0:
+            self.log.info('SQL Tests failed')
+            self.log.info(failing_tests)
+            raise ValueError('Data quality check failed')
+        else :
             self.log.info('SQL Tests Passed')
             
             
