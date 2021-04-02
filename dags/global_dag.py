@@ -25,8 +25,8 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
     'catchup': False,
     'email_on_retry': False,
-    'check_null_sql' = """SELECT COUNT(*) FROM {} WHERE {} IS NULL;""",
-    'check_count_sql' = """SELECT COUNT(*) FROM {};"""
+    'check_null_sql' : """SELECT COUNT(*) FROM {} WHERE {} IS NULL;""",
+    'check_count_sql' : """SELECT COUNT(*) FROM {};"""
 }
 
 # DAG
