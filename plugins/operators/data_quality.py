@@ -5,7 +5,8 @@ from airflow.utils.decorators import apply_defaults
 class DataQualityOperator(BaseOperator):
 
     ui_color = '#89DA59'
-    check_sql = """SELECT COUNT(*) FROM {} WHERE {} IS NULL"""
+    check_null_sql = """SELECT COUNT(*) FROM {} WHERE {} IS NULL;"""
+    check_count_sql = """SELECT COUNT(*) FROM {};"""
 
     @apply_defaults
     def __init__(self,
@@ -23,7 +24,7 @@ class DataQualityOperator(BaseOperator):
         redshift = PostgresHook(self.redshift_conn_id)
         
         for table, column in zip(self.tables, self.columns) :
-            check_query = DataQualityOperator.check_sql.format(table, column)
+            check_query = DataQualityOperator.check_null_sql.format(table, column)
             records = redshift.get_records(check_query)[0]
             error_count = 0
             failing_tests = []
@@ -37,6 +38,17 @@ class DataQualityOperator(BaseOperator):
             raise ValueError('Data quality check failed')
         else :
             self.log.info('SQL Tests Passed')
+            
+        
+        for table in self.tables:
+            query = DataQualityOperator.check_count_sql.format(table)
+            records = redshift_hook.get_records(query)
+            if len(records) < 1 or len(records[0]) < 1:
+                raise ValueError(f"Data quality check failed. {table} returned no results")
+            num_records = records[0][0]
+            if num_records < 1:
+                raise ValueError(f"Data quality check failed. {self.table} contained 0 rows")
+            logging.info(f"Passed data quality record count on table {self.table} check with {records[0][0]} records")
             
             
 
