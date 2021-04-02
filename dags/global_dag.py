@@ -118,19 +118,8 @@ load_time_dimension_table = LoadDimensionOperator(
     append=False
 )
 
-milestone_task = DummyOperator(task_id='milestone_task',  dag=dag)
-
-run_quality_checks_1 = DataQualityOperator(
-    task_id='Run_data_quality_checks_1',
-    dag=dag,
-    redshift_conn_id="redshift",
-    table="songplays",
-    column="artistid",
-)
-
-
 run_quality_checks = DataQualityOperator(
-    task_id='Run_data_quality_checks',
+    task_id='run_quality_checks',
     dag=dag,
     redshift_conn_id="redshift",
     tables=['songplays', 'songs', 'users', 'artists', 'time'],
