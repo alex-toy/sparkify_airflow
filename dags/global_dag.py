@@ -134,7 +134,6 @@ run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
     dag=dag,
     redshift_conn_id="redshift",
-    query=default_args['null_check'],
     tables=['songplays', 'songs', 'users', 'artists', 'time'],
     columns=['playid', 'songid', 'userid', 'artist_id', 'start_time']
 )
