@@ -47,8 +47,8 @@ class DataQualityOperator(BaseOperator):
                 raise ValueError(f"Data quality check failed. {table} returned no results")
             num_records = records[0][0]
             if num_records < 1:
-                raise ValueError(f"Data quality check failed. {self.table} contained 0 rows")
-            logging.info(f"Passed data quality record count on table {self.table} check with {records[0][0]} records")
+                raise ValueError(f"Data quality check failed. {table} contained 0 rows")
+            logging.info(f"Passed data quality record count on table {table} check with {records[0][0]} records")
             
             
 
