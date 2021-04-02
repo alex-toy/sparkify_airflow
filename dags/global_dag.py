@@ -127,7 +127,7 @@ run_quality_checks = DataQualityOperator(
     check_null_sql=default_args['check_null_sql'],
     check_count_sql=default_args['check_count_sql'],
     tables=['songplays', 'songs', 'users', 'artists', 'time'],
-    columns=['playid', 'songid', 'userid', 'artist_id', 'start_time']
+    columns=['playid', 'songid', 'userid', 'artistid', 'start_time']
 )
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
