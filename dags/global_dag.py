@@ -25,6 +25,8 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
     'catchup': False,
     'email_on_retry': False,
+    'check_null_sql' = """SELECT COUNT(*) FROM {} WHERE {} IS NULL;""",
+    'check_count_sql' = """SELECT COUNT(*) FROM {};"""
 }
 
 # DAG
@@ -122,6 +124,8 @@ run_quality_checks = DataQualityOperator(
     task_id='run_quality_checks',
     dag=dag,
     redshift_conn_id="redshift",
+    check_null_sql=default_args['check_null_sql'],
+    check_count_sql=default_args['check_count_sql'],
     tables=['songplays', 'songs', 'users', 'artists', 'time'],
     columns=['playid', 'songid', 'userid', 'artist_id', 'start_time']
 )
